@@ -41,10 +41,10 @@ body {
 }
 .titulo {
   position: absolute;
-  top: 20px;                   /* Lo fija arriba en pantallas grandes */
-  left: 50%;                   /* Lo posiciona en el eje central */
+  top: 20px;                   /* Ajusta este número si lo quieres más arriba o abajo */
+  left: 50%;                   /* Lo mueve al centro de la pantalla */
   transform: translateX(-50%);  /* Centrado matemático perfecto horizontal */
-  text-align: center;          /* Asegura el centrado si el texto quiebra en líneas */
+  text-align: center;          /* Centra el texto si llega a ocupar dos renglones */
   
   font-family: "Arial Narrow", Arial, sans-serif;
   color: yellow;
@@ -52,22 +52,6 @@ body {
   letter-spacing: 10px;
   opacity: 0;
   animation: fadeIn 3s ease-in-out forwards;
-}
-@media only screen and (max-width: 600px) {
-  /* Estilos específicos para dispositivos con un ancho máximo de 600px */
-  #lyrics {
-      font-size: 14px; 
-      margin-bottom: 530px;
-      letter-spacing: 3px;
-  }
-  
-  /* Pega este bloque aquí abajo para corregir el título en teléfonos */
-  .titulo {
-      top: 15px;               /* Un toque más arriba en pantallas reducidas */
-      font-size: 18px;         /* Tamaño de fuente cómodo para celulares */
-      letter-spacing: 4px;     /* Reduce el espaciado para evitar desbordes */
-      width: 90%;              /* Margen de seguridad en los bordes de pantalla */
-  }
 }
 
 @keyframes fadeIn {
@@ -1677,3 +1661,141 @@ h1 {
 }
 
 /* Agregar más estilos según sea necesario */
+/* Estilos para las abejas */
+.abeja {
+  position: absolute;
+  width: 45px;          /* Tamaño pequeño */
+  height: auto;
+  z-index: 999;         /* Mantiene las abejas por encima del fondo */
+  pointer-events: none; /* Evita que bloqueen los clics en la pantalla */
+  animation: flotarAbeja 3s ease-in-out infinite alternate;
+}
+
+/* Posiciones aleatorias y orientación (volteadas) */
+.abeja--1 {
+  top: 15%;
+  left: 8%;
+  transform: scaleX(1); /* Mira hacia la derecha */
+  animation-delay: 0s;
+}
+
+.abeja--2 {
+  top: 25%;
+  right: 12%;
+  transform: scaleX(-1); /* Volteada (mira hacia la izquierda) */
+  animation-delay: 0.5s;
+}
+
+.abeja--3 {
+  top: 45%;
+  left: 18%;
+  transform: scaleX(-1); /* Volteada */
+  animation-delay: 1s;
+}
+
+.abeja--4 {
+  top: 55%;
+  right: 20%;
+  transform: scaleX(1); /* Mira hacia la derecha */
+  animation-delay: 1.5s;
+}
+
+.abeja--5 {
+  top: 75%;
+  left: 10%;
+  transform: scaleX(1); /* Mira hacia la derecha */
+  animation-delay: 0.8s;
+}
+
+.abeja--6 {
+  top: 80%;
+  right: 8%;
+  transform: scaleX(-1); /* Volteada */
+  animation-delay: 1.2s;
+}
+
+/* Animación sutil de aleteo/flotación */
+@keyframes flotarAbeja {
+  0% {
+    margin-top: 0px;
+  }
+  100% {
+    margin-top: -12px;
+  }
+}
+/* Estilos para los loros */
+.loro {
+  position: absolute;
+  width: 40px;          /* Ajusta el tamaño chiquito */
+  height: auto;
+  z-index: 999;         /* Asegura que queden encima del fondo */
+  pointer-events: none; /* Evita que estorben con los clics */
+  animation: flotarLoro 2.5s ease-in-out infinite alternate;
+}
+
+/* Posición y orientación para cada loro */
+.loro--1 {
+  top: 12%;
+  left: 10%;
+  transform: scaleX(1); /* De izquierda a derecha */
+  animation-delay: 0s;
+}
+
+.loro--2 {
+  top: 20%;
+  right: 15%;
+  transform: scaleX(-1); /* Volteado (de derecha a izquierda) */
+  animation-delay: 0.4s;
+}
+
+.loro--3 {
+  top: 40%;
+  left: 5%;
+  transform: scaleX(1); /* Normal */
+  animation-delay: 0.8s;
+}
+
+.loro--4 {
+  top: 60%;
+  right: 10%;
+  transform: scaleX(-1); /* Volteado */
+  animation-delay: 1.2s;
+}
+
+.loro--5 {
+  top: 72%;
+  left: 14%;
+  transform: scaleX(-1); /* Volteado */
+  animation-delay: 0.6s;
+}
+
+.loro--6 {
+  top: 85%;
+  right: 18%;
+  transform: scaleX(1); /* Normal */
+  animation-delay: 1.5s;
+}
+
+/* Animación sutil de aleteo o movimiento suave */
+@keyframes flotarLoro {
+  0% {
+    transform: translateY(0px) scaleX(1);
+  }
+  100% {
+    transform: translateY(-10px) scaleX(1);
+  }
+}
+
+/* Mantiene el sentido de los loros volteados durante la animación */
+.loro--2, .loro--4, .loro--5 {
+  animation-name: flotarLoroVolteado;
+}
+
+@keyframes flotarLoroVolteado {
+  0% {
+    transform: translateY(0px) scaleX(-1);
+  }
+  100% {
+    transform: translateY(-10px) scaleX(-1);
+  }
+}
