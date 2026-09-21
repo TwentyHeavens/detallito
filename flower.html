@@ -538,7 +538,7 @@
 
     <script src="main.js"></script>
 
-    <!-- Control de música ultra suave (Smooth Fade-In en 2 segundos) y redirección a WhatsApp -->
+    <!-- Control de música con entrada desvanecida de 0 a 100% en 2 segundos (Smooth Fade-In) -->
     <script>
       const music = document.getElementById("music");
       const savedTime = localStorage.getItem("musicTime");
@@ -547,17 +547,16 @@
 
       let audioCtx = null;
       let gainNode = null;
-      let isPlayingWithAudioApi = false;
+      let iniciado = false;
 
-      // Inicia la música con rampa exponencial/lineal suave usando Web Audio API
-      function iniciarFadeInUltraSuave() {
-        if (!music) return;
+      function iniciarEntradaSuave() {
+        if (!music || iniciado) return;
 
-        // Si ya está reproduciendo de forma fluida, no reiniciar
-        if (isPlayingWithAudioApi) return;
+        // Asegurar que el elemento HTML empiece en silencio total
+        music.volume = 0;
 
         try {
-          // Crear contexto de audio si no existe
+          // Inicializar Web Audio API para una curva de volumen fluida
           if (!audioCtx) {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             audioCtx = new AudioContext();
@@ -571,52 +570,56 @@
             audioCtx.resume();
           }
 
-          const now = audioCtx.currentTime;
-          // Iniciar la ganancia (volumen) en cero absoluto
-          gainNode.gain.setValueAtTime(0, now);
-          // Rampa ultra suave desde 0 hasta 1 en exactamente 2.0 segundos
-          gainNode.gain.linearRampToValueAtTime(1, now + 2.0);
+          const tiempoActual = audioCtx.currentTime;
+          
+          // Ajustar ganancia a 0 absoluto justo al arrancar
+          gainNode.gain.setValueAtTime(0, tiempoActual);
+          
+          // Incrementar progresiva y suavemente hasta 1.0 (100%) durante 2.0 segundos exactos
+          gainNode.gain.linearRampToValueAtTime(1.0, tiempoActual + 2.0);
 
           music.play().then(() => {
-            isPlayingWithAudioApi = true;
+            iniciado = true;
           }).catch(() => {
-            // Autoplay restringido hasta que el usuario toque la pantalla
+            // El navegador bloqueó el autoplay hasta la interacción
           });
         } catch (e) {
-          // Fallback con intervalos si la Web Audio API no está disponible
+          // Alternativa de compatibilidad si falla Web Audio API
           music.volume = 0;
-          music.play().catch(() => {});
-          let start = Date.now();
-          let timer = setInterval(() => {
-            let timePassed = Date.now() - start;
-            if (timePassed >= 2000) {
-              music.volume = 1;
-              clearInterval(timer);
-            } else {
-              music.volume = timePassed / 2000;
-            }
-          }, 20);
+          music.play().then(() => {
+            iniciado = true;
+            let tiempoInicio = Date.now();
+            let intervalo = setInterval(() => {
+              let transcurrido = Date.now() - tiempoInicio;
+              if (transcurrido >= 2000) {
+                music.volume = 1;
+                clearInterval(intervalo);
+              } else {
+                music.volume = transcurrido / 2000;
+              }
+            }, 10);
+          }).catch(() => {});
         }
       }
 
-      // Restaurar el tiempo guardado
+      // Cargar tiempo de reproducción anterior si existe
       music.addEventListener("loadedmetadata", () => {
         if (savedTime) {
           music.currentTime = parseFloat(savedTime);
         }
-        iniciarFadeInUltraSuave();
+        iniciarEntradaSuave();
       });
 
       window.addEventListener("load", () => {
-        iniciarFadeInUltraSuave();
+        iniciarEntradaSuave();
       });
 
       let redirigiendo = false;
 
       function irAWhatsApp() {
-        // Asegurar inicio del audio con fade-in si el navegador lo bloqueó
-        if (music.paused || !isPlayingWithAudioApi) {
-          iniciarFadeInUltraSuave();
+        // En móviles, activa la entrada suave al primer toque si el autoplay estaba bloqueado
+        if (music.paused || !iniciado) {
+          iniciarEntradaSuave();
         }
 
         if (redirigiendo) return;
@@ -629,11 +632,11 @@
         window.location.href = whatsappURL;
       }
 
-      // Capturar toque o clic para iniciar suavemente y redirigir
+      // Escuchar cualquier interacción en la pantalla
       document.addEventListener("touchstart", irAWhatsApp, { passive: true });
       document.addEventListener("click", irAWhatsApp);
 
-      // Guardar progreso continuamente
+      // Persistir tiempo de reproducción
       music.addEventListener("timeupdate", () => {
         localStorage.setItem("musicTime", music.currentTime);
       });
