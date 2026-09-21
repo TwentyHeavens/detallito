@@ -53,6 +53,23 @@ body {
   opacity: 0;
   animation: fadeIn 3s ease-in-out forwards;
 }
+@media only screen and (max-width: 600px) {
+  /* Estilos específicos para dispositivos con un ancho máximo de 600px */
+  #lyrics {
+      font-size: 14px; 
+      margin-bottom: 530px;
+      letter-spacing: 3px;
+  }
+  
+  /* Pega este bloque aquí abajo para corregir el título en teléfonos */
+  .titulo {
+      top: 15px;               /* Un toque más arriba en pantallas reducidas */
+      font-size: 18px;         /* Tamaño de fuente cómodo para celulares */
+      letter-spacing: 4px;     /* Reduce el espaciado para evitar desbordes */
+      width: 90%;              /* Margen de seguridad en los bordes de pantalla */
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
