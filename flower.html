@@ -128,10 +128,8 @@
 
   <body class="container">
 
-    <!-- Música -->
-    <audio src="sound/Mon Laferte-Química Mayor.mp3" autoplay></audio>
+    <audio id="music" src="sound/Mon Laferte-Química Mayor.mp3"></audio>
 
-    <!-- Contenedor aislado de abejas, loros y Roblox -->
     <div class="animales-container">
       <img src="img/abeja.gif" class="abeja abeja--1" alt="Abeja Minecraft">
       <img src="img/abeja.gif" class="abeja abeja--2" alt="Abeja Minecraft">
@@ -538,88 +536,52 @@
 
     <script src="main.js"></script>
 
-    <!-- Control de música con entrada desvanecida de 0 a 100% en 5 segundos (Smooth Fade-In) -->
     <script>
       const music = document.getElementById("music");
       const savedTime = localStorage.getItem("musicTime");
       
+      // Enlace directo de WhatsApp
       const whatsappURL = "https://api.whatsapp.com/send/?phone=526862462143&text=Muchas+gracias%2C+mi+amor.+Te+amo%2C+eres+lo+mas+bonito+que+me+ha+pasado%2C+soy+muy+afortunada.&type=phone_number&app_absent=0";
 
-      let audioCtx = null;
-      let gainNode = null;
-      let iniciado = false;
+      let fadeInInterval = null;
 
-      function iniciarEntradaSuave() {
-        if (!music || iniciado) return;
-
-        // Asegurar que el elemento HTML empiece en silencio total
-        music.volume = 0;
-
-        try {
-          // Inicializar Web Audio API para una curva de volumen fluida
-          if (!audioCtx) {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioCtx = new AudioContext();
-            const source = audioCtx.createMediaElementSource(music);
-            gainNode = audioCtx.createGain();
-            source.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-          }
-
-          if (audioCtx.state === "suspended") {
-            audioCtx.resume();
-          }
-
-          const tiempoActual = audioCtx.currentTime;
-          
-          // Ajustar ganancia a 0 absoluto justo al arrancar
-          gainNode.gain.setValueAtTime(0, tiempoActual);
-          
-          // Incrementar progresiva y suavemente hasta 1.0 (100%) durante 5.0 segundos exactos
-          gainNode.gain.linearRampToValueAtTime(1.0, tiempoActual + 5.0);
-
-          music.play().then(() => {
-            iniciado = true;
-          }).catch(() => {
-            // El navegador bloqueó el autoplay hasta la interacción
-          });
-        } catch (e) {
-          // Alternativa de compatibilidad si falla Web Audio API
-          music.volume = 0;
-          music.play().then(() => {
-            iniciado = true;
-            let tiempoInicio = Date.now();
-            let intervalo = setInterval(() => {
-              let transcurrido = Date.now() - tiempoInicio;
-              if (transcurrido >= 5000) {
-                music.volume = 1;
-                clearInterval(intervalo);
-              } else {
-                music.volume = transcurrido / 5000;
-              }
-            }, 10);
-          }).catch(() => {});
-        }
+      // Función para incrementar progresivamente el volumen
+      function iniciarFadeIn() {
+        if (!music) return;
+        music.volume = 0; // Inicio en silencio
+        
+        music.play().then(() => {
+          fadeInInterval = setInterval(() => {
+            if (music.volume < 0.95) {
+              music.volume = Math.min(1, music.volume + 0.05); // Sube 5% por intervalo
+            } else {
+              music.volume = 1;
+              clearInterval(fadeInInterval);
+            }
+          }, 100); // Tarda aproximadamente 2 segundos en sonar al 100%
+        }).catch(() => {
+          // El autoplay fue bloqueado por el navegador hasta la interacción del usuario
+        });
       }
 
-      // Cargar tiempo de reproducción anterior si existe
+      // Restaurar tiempo previo de la canción
       music.addEventListener("loadedmetadata", () => {
         if (savedTime) {
           music.currentTime = parseFloat(savedTime);
         }
-        iniciarEntradaSuave();
+        iniciarFadeIn();
       });
 
       window.addEventListener("load", () => {
-        iniciarEntradaSuave();
+        iniciarFadeIn();
       });
 
+      // Evitar que la redirección se dispare más de una vez
       let redirigiendo = false;
 
       function irAWhatsApp() {
-        // En móviles, activa la entrada suave al primer toque si el autoplay estaba bloqueado
-        if (music.paused || !iniciado) {
-          iniciarEntradaSuave();
+        if (music && music.paused) {
+          iniciarFadeIn();
         }
 
         if (redirigiendo) return;
@@ -629,14 +591,15 @@
           localStorage.setItem("musicTime", music.currentTime);
         }
 
+        // Redirigir directamente a WhatsApp
         window.location.href = whatsappURL;
       }
 
-      // Escuchar cualquier interacción en la pantalla
+      // Escuchar el toque en la pantalla de cualquier dispositivo
       document.addEventListener("touchstart", irAWhatsApp, { passive: true });
       document.addEventListener("click", irAWhatsApp);
 
-      // Persistir tiempo de reproducción
+      // Guardar posición actual continuamente
       music.addEventListener("timeupdate", () => {
         localStorage.setItem("musicTime", music.currentTime);
       });
