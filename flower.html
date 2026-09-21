@@ -7,95 +7,30 @@
     <link rel="stylesheet" href="css/main.css" />
     <link rel="icon" href="img/flowers.png" type="image/x-icon" />
     <title>Detallito</title>
-
-    <style>
-      /* Reset completo de estilos para el título para anular main.css */
-      h1.titulo, .titulo {
-        position: fixed !important;
-        top: 25px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: 85% !important;
-        max-width: 600px !important;
-        margin: 0 auto !important;
-        padding: 0 !important;
-        z-index: 1000 !important;
-        text-align: center !important;
-        
-        /* Arreglo de espaciado y letras apiladas */
-        letter-spacing: normal !important;
-        word-spacing: normal !important;
-        font-size: 1.1rem !important;
-        line-height: 1.4 !important;
-        white-space: normal !important;
-        display: block !important;
-        color: #ffe600 !important;
-        text-shadow: 0 0 8px rgba(0, 0, 0, 0.8), 0 0 4px #000 !important;
-      }
-
-      h1.titulo span, .titulo span {
-        display: inline !important;
-        letter-spacing: normal !important;
-      }
-
-      /* Contenedor de GIF en capa de fondo */
-      .animales-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        pointer-events: none;
-        z-index: 800;
-        overflow: hidden;
-      }
-
-      .abeja, .loro {
-        position: absolute;
-        pointer-events: none;
-      }
-
-      .abeja { width: 35px; height: auto; }
-      .loro { width: 32px; height: auto; }
-
-      /* Posiciones distribuidas */
-      .abeja--1 { top: 18%; left: 5%; transform: scaleX(1); }
-      .abeja--2 { top: 22%; right: 5%; transform: scaleX(-1); }
-      .abeja--3 { top: 48%; left: 10%; transform: scaleX(-1); }
-      .abeja--4 { top: 58%; right: 8%; transform: scaleX(1); }
-      .abeja--5 { top: 78%; left: 8%; transform: scaleX(1); }
-      .abeja--6 { top: 82%; right: 12%; transform: scaleX(-1); }
-
-      .loro--1 { top: 15%; left: 22%; transform: scaleX(1); }
-      .loro--2 { top: 20%; right: 25%; transform: scaleX(-1); }
-      .loro--3 { top: 40%; left: 6%; transform: scaleX(1); }
-      .loro--4 { top: 62%; right: 12%; transform: scaleX(-1); }
-      .loro--5 { top: 72%; left: 18%; transform: scaleX(-1); }
-      .loro--6 { top: 88%; right: 22%; transform: scaleX(1); }
-    </style>
   </head>
 
   <body class="container">
 
     <!-- Música -->
     <audio id="music" src="sound/Mon Laferte-Química Mayor.mp3"></audio>
-
-    <!-- Contenedor aislado de abejas y loros -->
-    <div class="animales-container">
-      <img src="img/abeja.gif" class="abeja abeja--1" alt="Abeja Minecraft">
-      <img src="img/abeja.gif" class="abeja abeja--2" alt="Abeja Minecraft">
-      <img src="img/abeja.gif" class="abeja abeja--3" alt="Abeja Minecraft">
-      <img src="img/abeja.gif" class="abeja abeja--4" alt="Abeja Minecraft">
-      <img src="img/abeja.gif" class="abeja abeja--5" alt="Abeja Minecraft">
-      <img src="img/abeja.gif" class="abeja abeja--6" alt="Abeja Minecraft">
-
-      <img src="img/loro.gif" class="loro loro--1" alt="Loro Minecraft">
-      <img src="img/loro.gif" class="loro loro--2" alt="Loro Minecraft">
-      <img src="img/loro.gif" class="loro loro--3" alt="Loro Minecraft">
-      <img src="img/loro.gif" class="loro loro--4" alt="Loro Minecraft">
-      <img src="img/loro.gif" class="loro loro--5" alt="Loro Minecraft">
-      <img src="img/loro.gif" class="loro loro--6" alt="Loro Minecraft">
-    </div>
+	<img src="img/abeja.gif" class="abeja abeja--1" alt="Abeja Minecraft">
+    <img src="img/abeja.gif" class="abeja abeja--2" alt="Abeja Minecraft">
+    <img src="img/abeja.gif" class="abeja abeja--3" alt="Abeja Minecraft">
+    <img src="img/abeja.gif" class="abeja abeja--4" alt="Abeja Minecraft">
+    <img src="img/abeja.gif" class="abeja abeja--5" alt="Abeja Minecraft">
+    <img src="img/abeja.gif" class="abeja abeja--6" alt="Abeja Minecraft">
+	<img src="img/loro.gif" class="loro loro--1" alt="Loro Minecraft">
+	<img src="img/loro.gif" class="loro loro--2" alt="Loro Minecraft">
+	<img src="img/loro.gif" class="loro loro--3" alt="Loro Minecraft">
+	<img src="img/loro.gif" class="loro loro--4" alt="Loro Minecraft">
+	<img src="img/loro.gif" class="loro loro--5" alt="Loro Minecraft">
+	<img src="img/loro.gif" class="loro loro--6" alt="Loro Minecraft">
+	<img src="img/roblox.gif" class="roblox roblox--1" alt="roblox">
+	<img src="img/roblox.gif" class="roblox roblox--2" alt="roblox">
+	<img src="img/roblox.gif" class="roblox roblox--3" alt="roblox">
+	<img src="img/roblox.gif" class="roblox roblox--4" alt="roblox">
+	<img src="img/roblox.gif" class="roblox roblox--5" alt="roblox">
+	<img src="img/roblox.gif" class="roblox roblox--6" alt="roblox">
 
     <div id="lyrics"></div>
 
@@ -484,27 +419,41 @@
     <!-- Control de música -->
     <script>
       const music = document.getElementById("music");
+
       const savedTime = localStorage.getItem("musicTime");
 
+      // Restaurar posición anterior
       music.addEventListener("loadedmetadata", () => {
         if (savedTime) {
           music.currentTime = parseFloat(savedTime);
         }
+
         playMusic();
       });
 
+      // Intentar reproducir
       function playMusic() {
-        music.play().catch(() => {});
+        music.play().catch(() => {
+          // El navegador bloqueó el autoplay.
+          // Esperamos una interacción del usuario.
+        });
       }
 
+      // Intentar reproducir automáticamente
       window.addEventListener("load", playMusic);
+
+      // Si el navegador bloquea autoplay,
+      // reproducir al primer clic.
       document.addEventListener("click", playMusic, { once: true });
       document.addEventListener("touchstart", playMusic, { once: true });
 
+      // Guardar la posición de la canción
       music.addEventListener("timeupdate", () => {
         localStorage.setItem("musicTime", music.currentTime);
       });
 
+      // Si termina, borrar la posición guardada
+      // para que la siguiente visita empiece desde el principio.
       music.addEventListener("ended", () => {
         localStorage.removeItem("musicTime");
       });
