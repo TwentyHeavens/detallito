@@ -7,24 +7,80 @@
     <link rel="stylesheet" href="css/main.css" />
     <link rel="icon" href="img/flowers.png" type="image/x-icon" />
     <title>Detallito</title>
+
+    <style>
+      /* Fijar el título arriba de la pantalla en cualquier dispositivo */
+      .titulo {
+        position: fixed !important;
+        top: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 90% !important;
+        max-width: 800px !important;
+        margin: 0 !important;
+        z-index: 1000 !important;
+        text-align: center;
+        word-break: break-word;
+      }
+
+      /* Contenedor de GIF que evita empujar o agrupar las letras */
+      .animales-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 900;
+        overflow: hidden;
+      }
+
+      /* Configuración individual de abejas y loros */
+      .abeja, .loro {
+        position: absolute;
+        pointer-events: none;
+      }
+
+      .abeja { width: 45px; height: auto; }
+      .loro { width: 40px; height: auto; }
+
+      /* Posiciones fijas distribuidas para abejas */
+      .abeja--1 { top: 15%; left: 8%; transform: scaleX(1); }
+      .abeja--2 { top: 25%; right: 12%; transform: scaleX(-1); }
+      .abeja--3 { top: 45%; left: 18%; transform: scaleX(-1); }
+      .abeja--4 { top: 55%; right: 20%; transform: scaleX(1); }
+      .abeja--5 { top: 75%; left: 10%; transform: scaleX(1); }
+      .abeja--6 { top: 80%; right: 8%; transform: scaleX(-1); }
+
+      /* Posiciones fijas distribuidas para loros */
+      .loro--1 { top: 12%; left: 30%; transform: scaleX(1); }
+      .loro--2 { top: 20%; right: 35%; transform: scaleX(-1); }
+      .loro--3 { top: 38%; left: 5%; transform: scaleX(1); }
+      .loro--4 { top: 60%; right: 10%; transform: scaleX(-1); }
+      .loro--5 { top: 70%; left: 25%; transform: scaleX(-1); }
+      .loro--6 { top: 85%; right: 28%; transform: scaleX(1); }
+    </style>
   </head>
 
   <body class="container">
 
-    <!-- Música -->
     <audio id="music" src="sound/Mon Laferte-Química Mayor.mp3"></audio>
-	<img src="img/abeja.gif" class="abeja abeja--1" alt="Abeja Minecraft">
-    <img src="img/abeja.gif" class="abeja abeja--2" alt="Abeja Minecraft">
-    <img src="img/abeja.gif" class="abeja abeja--3" alt="Abeja Minecraft">
-    <img src="img/abeja.gif" class="abeja abeja--4" alt="Abeja Minecraft">
-    <img src="img/abeja.gif" class="abeja abeja--5" alt="Abeja Minecraft">
-    <img src="img/abeja.gif" class="abeja abeja--6" alt="Abeja Minecraft">
-	<img src="img/loro.gif" class="loro loro--1" alt="Loro Minecraft">
-	<img src="img/loro.gif" class="loro loro--2" alt="Loro Minecraft">
-	<img src="img/loro.gif" class="loro loro--3" alt="Loro Minecraft">
-	<img src="img/loro.gif" class="loro loro--4" alt="Loro Minecraft">
-	<img src="img/loro.gif" class="loro loro--5" alt="Loro Minecraft">
-	<img src="img/loro.gif" class="loro loro--6" alt="Loro Minecraft">
+
+    <div class="animales-container">
+      <img src="img/abeja.gif" class="abeja abeja--1" alt="Abeja Minecraft">
+      <img src="img/abeja.gif" class="abeja abeja--2" alt="Abeja Minecraft">
+      <img src="img/abeja.gif" class="abeja abeja--3" alt="Abeja Minecraft">
+      <img src="img/abeja.gif" class="abeja abeja--4" alt="Abeja Minecraft">
+      <img src="img/abeja.gif" class="abeja abeja--5" alt="Abeja Minecraft">
+      <img src="img/abeja.gif" class="abeja abeja--6" alt="Abeja Minecraft">
+
+      <img src="img/loro.gif" class="loro loro--1" alt="Loro Minecraft">
+      <img src="img/loro.gif" class="loro loro--2" alt="Loro Minecraft">
+      <img src="img/loro.gif" class="loro loro--3" alt="Loro Minecraft">
+      <img src="img/loro.gif" class="loro loro--4" alt="Loro Minecraft">
+      <img src="img/loro.gif" class="loro loro--5" alt="Loro Minecraft">
+      <img src="img/loro.gif" class="loro loro--6" alt="Loro Minecraft">
+    </div>
 
     <div id="lyrics"></div>
 
@@ -410,7 +466,6 @@
 
     <script src="main.js"></script>
 
-    <!-- Control de música -->
     <script>
       const music = document.getElementById("music");
 
