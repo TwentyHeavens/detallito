@@ -7,30 +7,151 @@
     <link rel="stylesheet" href="css/main.css" />
     <link rel="icon" href="img/flowers.png" type="image/x-icon" />
     <title>Detallito</title>
+
+    <style>
+      /* Reset completo de la clase titulo para evitar apilamiento o letras apretadas */
+      h1.titulo, 
+      .titulo,
+      h1.titulo *,
+      .titulo * {
+        display: inline !important;
+        position: static !important;
+        float: none !important;
+        clear: none !important;
+        letter-spacing: normal !important;
+        word-spacing: normal !important;
+        writing-mode: horizontal-tb !important;
+        text-orientation: mixed !important;
+        white-space: normal !important;
+        font-size: 1.1rem !important;
+        line-height: 1.4 !important;
+        color: #ffe600 !important;
+      }
+
+      /* Contenedor principal del título para fijarlo en la parte superior */
+      h1.titulo, .titulo {
+        display: block !important;
+        position: fixed !important;
+        top: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 85% !important;
+        max-width: 500px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        z-index: 2000 !important;
+        text-align: center !important;
+        text-shadow: 0 0 8px rgba(0, 0, 0, 0.9), 0 0 4px #000 !important;
+        cursor: pointer;
+      }
+
+      /* Contenedor flotante de imágenes para no alterar el layout general */
+      .animales-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 800;
+        overflow: hidden;
+      }
+
+      .abeja, .loro, .roblox { 
+        position: absolute; 
+        pointer-events: none; 
+      }
+
+      /* Estilos para Abejas */
+      .abeja { 
+        width: 35px; 
+        height: auto; 
+        animation: flotarAbeja 2.5s ease-in-out infinite alternate;
+      }
+      .abeja--1 { top: 18%; left: 5%; animation-delay: 0s; }
+      .abeja--2 { top: 22%; right: 5%; animation-delay: 0.4s; }
+      .abeja--3 { top: 48%; left: 8%; animation-delay: 0.8s; }
+      .abeja--4 { top: 58%; right: 8%; animation-delay: 1.2s; }
+      .abeja--5 { top: 78%; left: 8%; animation-delay: 0.6s; }
+      .abeja--6 { top: 82%; right: 12%; animation-delay: 1.5s; }
+
+      @keyframes flotarAbeja {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(-10px); }
+      }
+
+      /* Estilos para Loros */
+      .loro { 
+        width: 32px; 
+        height: auto; 
+        animation: flotarLoro 2.5s ease-in-out infinite alternate;
+      }
+      .loro--1 { top: 12%; left: 10%; transform: scaleX(1); animation-delay: 0s; }
+      .loro--2 { top: 20%; right: 15%; animation-name: flotarLoroVolteado; animation-delay: 0.4s; }
+      .loro--3 { top: 40%; left: 5%; transform: scaleX(1); animation-delay: 0.8s; }
+      .loro--4 { top: 60%; right: 10%; animation-name: flotarLoroVolteado; animation-delay: 1.2s; }
+      .loro--5 { top: 72%; left: 14%; animation-name: flotarLoroVolteado; animation-delay: 0.6s; }
+      .loro--6 { top: 85%; right: 18%; transform: scaleX(1); animation-delay: 1.5s; }
+
+      @keyframes flotarLoro {
+        0% { transform: translateY(0px) scaleX(1); }
+        100% { transform: translateY(-10px) scaleX(1); }
+      }
+      @keyframes flotarLoroVolteado {
+        0% { transform: translateY(0px) scaleX(-1); }
+        100% { transform: translateY(-10px) scaleX(-1); }
+      }
+
+      /* Estilos para Roblox */
+      .roblox { 
+        width: 45px; 
+        height: auto; 
+        animation: flotarRoblox 2.5s ease-in-out infinite alternate;
+      }
+      .roblox--1 { top: 15%; left: 25%; transform: scaleX(1); animation-delay: 0.2s; }
+      .roblox--2 { top: 28%; right: 8%; animation-name: flotarRobloxVolteado; animation-delay: 0.6s; }
+      .roblox--3 { top: 48%; left: 18%; transform: scaleX(1); animation-delay: 1s; }
+      .roblox--4 { top: 65%; right: 20%; animation-name: flotarRobloxVolteado; animation-delay: 0.4s; }
+      .roblox--5 { top: 78%; left: 8%; transform: scaleX(1); animation-delay: 1.4s; }
+      .roblox--6 { top: 82%; right: 6%; animation-name: flotarRobloxVolteado; animation-delay: 0.8s; }
+
+      @keyframes flotarRoblox {
+        0% { transform: translateY(0px) scaleX(1); }
+        100% { transform: translateY(-10px) scaleX(1); }
+      }
+      @keyframes flotarRobloxVolteado {
+        0% { transform: translateY(0px) scaleX(-1); }
+        100% { transform: translateY(-10px) scaleX(-1); }
+      }
+    </style>
   </head>
 
   <body class="container">
 
-    <!-- Música -->
     <audio id="music" src="sound/Mon Laferte-Química Mayor.mp3"></audio>
-	<img src="img/abeja.gif" class="abeja abeja--1" alt="Abeja Minecraft">
-    <img src="img/abeja.gif" class="abeja abeja--2" alt="Abeja Minecraft">
-    <img src="img/abeja.gif" class="abeja abeja--3" alt="Abeja Minecraft">
-    <img src="img/abeja.gif" class="abeja abeja--4" alt="Abeja Minecraft">
-    <img src="img/abeja.gif" class="abeja abeja--5" alt="Abeja Minecraft">
-    <img src="img/abeja.gif" class="abeja abeja--6" alt="Abeja Minecraft">
-	<img src="img/loro.gif" class="loro loro--1" alt="Loro Minecraft">
-	<img src="img/loro.gif" class="loro loro--2" alt="Loro Minecraft">
-	<img src="img/loro.gif" class="loro loro--3" alt="Loro Minecraft">
-	<img src="img/loro.gif" class="loro loro--4" alt="Loro Minecraft">
-	<img src="img/loro.gif" class="loro loro--5" alt="Loro Minecraft">
-	<img src="img/loro.gif" class="loro loro--6" alt="Loro Minecraft">
-	<img src="img/roblox.gif" class="roblox roblox--1" alt="roblox">
-	<img src="img/roblox.gif" class="roblox roblox--2" alt="roblox">
-	<img src="img/roblox.gif" class="roblox roblox--3" alt="roblox">
-	<img src="img/roblox.gif" class="roblox roblox--4" alt="roblox">
-	<img src="img/roblox.gif" class="roblox roblox--5" alt="roblox">
-	<img src="img/roblox.gif" class="roblox roblox--6" alt="roblox">
+
+    <div class="animales-container">
+      <img src="img/abeja.gif" class="abeja abeja--1" alt="Abeja Minecraft">
+      <img src="img/abeja.gif" class="abeja abeja--2" alt="Abeja Minecraft">
+      <img src="img/abeja.gif" class="abeja abeja--3" alt="Abeja Minecraft">
+      <img src="img/abeja.gif" class="abeja abeja--4" alt="Abeja Minecraft">
+      <img src="img/abeja.gif" class="abeja abeja--5" alt="Abeja Minecraft">
+      <img src="img/abeja.gif" class="abeja abeja--6" alt="Abeja Minecraft">
+
+      <img src="img/loro.gif" class="loro loro--1" alt="Loro Minecraft">
+      <img src="img/loro.gif" class="loro loro--2" alt="Loro Minecraft">
+      <img src="img/loro.gif" class="loro loro--3" alt="Loro Minecraft">
+      <img src="img/loro.gif" class="loro loro--4" alt="Loro Minecraft">
+      <img src="img/loro.gif" class="loro loro--5" alt="Loro Minecraft">
+      <img src="img/loro.gif" class="loro loro--6" alt="Loro Minecraft">
+
+      <img src="img/roblox.gif" class="roblox roblox--1" alt="roblox">
+      <img src="img/roblox.gif" class="roblox roblox--2" alt="roblox">
+      <img src="img/roblox.gif" class="roblox roblox--3" alt="roblox">
+      <img src="img/roblox.gif" class="roblox roblox--4" alt="roblox">
+      <img src="img/roblox.gif" class="roblox roblox--5" alt="roblox">
+      <img src="img/roblox.gif" class="roblox roblox--6" alt="roblox">
+    </div>
 
     <div id="lyrics"></div>
 
@@ -413,47 +534,38 @@
 
     </div>
 
-
     <script src="main.js"></script>
 
-    <!-- Control de música -->
     <script>
       const music = document.getElementById("music");
-
       const savedTime = localStorage.getItem("musicTime");
+      const whatsappURL = "https://api.whatsapp.com/send/?phone=526862462143&text=Muchas+gracias%2C+mi+amor.+Te+amo%2C+eres+lo+mas+bonito+que+me+ha+pasado%2C+soy+muy+afortunada.&type=phone_number&app_absent=0";
 
       // Restaurar posición anterior
       music.addEventListener("loadedmetadata", () => {
         if (savedTime) {
           music.currentTime = parseFloat(savedTime);
         }
-
         playMusic();
       });
 
-      // Intentar reproducir
       function playMusic() {
-        music.play().catch(() => {
-          // El navegador bloqueó el autoplay.
-          // Esperamos una interacción del usuario.
-        });
+        music.play().catch(() => {});
       }
 
-      // Intentar reproducir automáticamente
       window.addEventListener("load", playMusic);
 
-      // Si el navegador bloquea autoplay,
-      // reproducir al primer clic.
-      document.addEventListener("click", playMusic, { once: true });
-      document.addEventListener("touchstart", playMusic, { once: true });
+      // Abrir enlace de WhatsApp al tocar/clicar cualquier parte de la pantalla
+      document.addEventListener("click", () => {
+        playMusic();
+        window.location.href = whatsappURL;
+      });
 
-      // Guardar la posición de la canción
+      // Guardar posición de la canción
       music.addEventListener("timeupdate", () => {
         localStorage.setItem("musicTime", music.currentTime);
       });
 
-      // Si termina, borrar la posición guardada
-      // para que la siguiente visita empiece desde el principio.
       music.addEventListener("ended", () => {
         localStorage.removeItem("musicTime");
       });
