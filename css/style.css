@@ -95,3 +95,28 @@ body{
         font-size: 1rem;
     }
 }
+/* Asegura que no aparezca barra de desplazamiento por los tacos */
+body {
+  overflow: hidden;
+}
+
+/* Estilos de los tacos en movimiento */
+.taco-lluvia {
+  position: fixed;
+  top: -60px;
+  pointer-events: none; /* Permite hacer clic en el botón sin que los tacos lo bloqueen */
+  z-index: 10;
+  animation: caerDiagonal linear infinite;
+}
+
+/* Animación de caída diagonal */
+@keyframes caerDiagonal {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) translateX(-150px) rotate(360deg);
+    opacity: 0.8;
+  }
+}
