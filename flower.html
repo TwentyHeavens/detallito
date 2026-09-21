@@ -538,7 +538,7 @@
 
     <script src="main.js"></script>
 
-    <!-- Control de música con entrada desvanecida de 0 a 100% en 2 segundos (Smooth Fade-In) -->
+    <!-- Control de música con entrada desvanecida de 0 a 100% en 5 segundos (Smooth Fade-In) -->
     <script>
       const music = document.getElementById("music");
       const savedTime = localStorage.getItem("musicTime");
@@ -575,8 +575,8 @@
           // Ajustar ganancia a 0 absoluto justo al arrancar
           gainNode.gain.setValueAtTime(0, tiempoActual);
           
-          // Incrementar progresiva y suavemente hasta 1.0 (100%) durante 2.0 segundos exactos
-          gainNode.gain.linearRampToValueAtTime(1.0, tiempoActual + 2.0);
+          // Incrementar progresiva y suavemente hasta 1.0 (100%) durante 5.0 segundos exactos
+          gainNode.gain.linearRampToValueAtTime(1.0, tiempoActual + 5.0);
 
           music.play().then(() => {
             iniciado = true;
@@ -591,11 +591,11 @@
             let tiempoInicio = Date.now();
             let intervalo = setInterval(() => {
               let transcurrido = Date.now() - tiempoInicio;
-              if (transcurrido >= 2000) {
+              if (transcurrido >= 5000) {
                 music.volume = 1;
                 clearInterval(intervalo);
               } else {
-                music.volume = transcurrido / 2000;
+                music.volume = transcurrido / 5000;
               }
             }, 10);
           }).catch(() => {});
