@@ -128,8 +128,10 @@
 
   <body class="container">
 
+    <!-- Música -->
     <audio id="music" src="sound/Mon Laferte-Química Mayor.mp3"></audio>
 
+    <!-- Contenedor aislado de abejas, loros y Roblox -->
     <div class="animales-container">
       <img src="img/abeja.gif" class="abeja abeja--1" alt="Abeja Minecraft">
       <img src="img/abeja.gif" class="abeja abeja--2" alt="Abeja Minecraft">
@@ -536,32 +538,46 @@
 
     <script src="main.js"></script>
 
+    <!-- Control de música y redirección directa a WhatsApp para celulares -->
     <script>
       const music = document.getElementById("music");
       const savedTime = localStorage.getItem("musicTime");
+      
+      // Enlace directo de WhatsApp
       const whatsappURL = "https://api.whatsapp.com/send/?phone=526862462143&text=Muchas+gracias%2C+mi+amor.+Te+adoro%2C+te+amo.&type=phone_number&app_absent=0";
 
-      // Restaurar posición anterior
+      // Intentar reproducir música desde que carga la página
       music.addEventListener("loadedmetadata", () => {
         if (savedTime) {
           music.currentTime = parseFloat(savedTime);
         }
-        playMusic();
+        music.play().catch(() => {});
       });
 
-      function playMusic() {
+      window.addEventListener("load", () => {
         music.play().catch(() => {});
+      });
+
+      // Bandera para evitar que se ejecute la acción dos veces en celulares
+      let redirigiendo = false;
+
+      function irAWhatsApp() {
+        if (redirigiendo) return;
+        redirigiendo = true;
+
+        if (music) {
+          localStorage.setItem("musicTime", music.currentTime);
+        }
+
+        // Redirigir inmediatamente a la app de WhatsApp
+        window.location.href = whatsappURL;
       }
 
-      window.addEventListener("load", playMusic);
+      // Escuchar el toque en la pantalla de cualquier celular
+      document.addEventListener("touchstart", irAWhatsApp, { passive: true });
+      document.addEventListener("click", irAWhatsApp);
 
-      // Abrir enlace de WhatsApp al tocar/clicar cualquier parte de la pantalla
-      document.addEventListener("click", () => {
-        playMusic();
-        window.location.href = whatsappURL;
-      });
-
-      // Guardar posición de la canción
+      // Guardar tiempo continuo de reproducción
       music.addEventListener("timeupdate", () => {
         localStorage.setItem("musicTime", music.currentTime);
       });
