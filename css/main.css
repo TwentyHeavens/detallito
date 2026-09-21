@@ -41,10 +41,10 @@ body {
 }
 .titulo {
   position: absolute;
-  top: 20px;                   /* Ajusta este número si lo quieres más arriba o abajo */
-  left: 50%;                   /* Lo mueve al centro de la pantalla */
+  top: 20px;                   /* Lo fija arriba en pantallas grandes */
+  left: 50%;                   /* Lo posiciona en el eje central */
   transform: translateX(-50%);  /* Centrado matemático perfecto horizontal */
-  text-align: center;          /* Centra el texto si llega a ocupar dos renglones */
+  text-align: center;          /* Asegura el centrado si el texto quiebra en líneas */
   
   font-family: "Arial Narrow", Arial, sans-serif;
   color: yellow;
@@ -53,7 +53,6 @@ body {
   opacity: 0;
   animation: fadeIn 3s ease-in-out forwards;
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
